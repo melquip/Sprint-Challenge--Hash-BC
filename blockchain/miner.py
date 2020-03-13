@@ -2,6 +2,7 @@ import hashlib
 import requests
 
 import sys
+import json
 
 from uuid import uuid4
 
@@ -21,14 +22,14 @@ def proof_of_work(last_proof):
     """
 
     start = timer()
-
-    print("Searching for next proof")
+    print(last_proof, "Searching for next proof")
     proof = 0
-    #  TODO: Your code here
+    last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
+    while not valid_proof(last_hash, proof):
+        proof += 1
 
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
-
 
 def valid_proof(last_hash, proof):
     """
@@ -38,9 +39,8 @@ def valid_proof(last_hash, proof):
 
     IE:  last_hash: ...AE9123456, new hash 123456E88...
     """
-
-    # TODO: Your code here!
-    pass
+    guess_hash = hashlib.sha256(str(proof).encode()).hexdigest()
+    return last_hash[:6] == guess_hash[-6:]
 
 
 if __name__ == '__main__':
@@ -61,6 +61,7 @@ if __name__ == '__main__':
     if id == 'NONAME\n':
         print("ERROR: You must change your name in `my_id.txt`!")
         exit()
+
     # Run forever until interrupted
     while True:
         # Get the last proof from the server
@@ -68,13 +69,13 @@ if __name__ == '__main__':
         data = r.json()
         new_proof = proof_of_work(data.get('proof'))
 
-        post_data = {"proof": new_proof,
-                     "id": id}
+        post_data = { "proof": new_proof, "id": id }
 
         r = requests.post(url=node + "/mine", json=post_data)
         data = r.json()
         if data.get('message') == 'New Block Forged':
             coins_mined += 1
             print("Total coins mined: " + str(coins_mined))
+            break
         else:
             print(data.get('message'))
