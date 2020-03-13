@@ -10,7 +10,7 @@ from timeit import default_timer as timer
 
 import random
 
-isInEndOfChain = False
+#isInEndOfChain = False
 
 def proof_of_work(last_proof):
     """
@@ -26,14 +26,14 @@ def proof_of_work(last_proof):
     print(last_proof, "Searching for next proof")
     proof = 0
     last_hash = hashlib.sha256(str(last_proof).encode()).hexdigest()
-    if isInEndOfChain:
-        proof = int(last_proof)
-        while not valid_proof(last_hash, proof):
-            proof += 1
-    else:
-        rangeBits = [i for i in range(16,80)]
-        while not valid_proof(last_hash, proof):
-            proof = random.getrandbits(random.choice(rangeBits))
+    #if isInEndOfChain:
+    #    proof = int(last_proof)
+    #    while not valid_proof(last_hash, proof):
+    #        proof += 1
+    #else:
+    rangeBits = [i for i in range(16,80)]
+    while not valid_proof(last_hash, proof):
+        proof = random.getrandbits(random.choice(rangeBits))
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
     return proof
 
@@ -70,10 +70,10 @@ if __name__ == '__main__':
         exit()
 
 
-    r = requests.get(url=node + "/full_chain")
-    data = r.json()
-    if data['chain'][-1]['transactions']['recipient'] == id:
-        isInEndOfChain = True
+    #r = requests.get(url=node + "/full_chain")
+    #data = r.json()
+    #if data['chain'][-1]['transactions']['recipient'] == id:
+    #    isInEndOfChain = True
     # Run forever until interrupted
     while True:
         # Get the last proof from the server
@@ -87,7 +87,7 @@ if __name__ == '__main__':
         data = r.json()
         if data.get('message') == 'New Block Forged':
             coins_mined += 1
-            isInEndOfChain = True
+            #isInEndOfChain = True
             print("Total coins mined: " + str(coins_mined))
         else:
             print(data.get('message'))
