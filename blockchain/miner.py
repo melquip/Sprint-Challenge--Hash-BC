@@ -31,7 +31,7 @@ def proof_of_work(last_proof):
     #    while not valid_proof(last_hash, proof):
     #        proof += 1
     #else:
-    rangeBits = [i for i in range(16,80)]
+    rangeBits = [i for i in range(16,64)]
     while not valid_proof(last_hash, proof):
         proof = random.getrandbits(random.choice(rangeBits))
     print("Proof found: " + str(proof) + " in " + str(timer() - start))
@@ -46,7 +46,7 @@ def valid_proof(last_hash, proof):
     IE:  last_hash: ...AE9123456, new hash 123456E88...
     """
     guess_hash = hashlib.sha256(str(proof).encode()).hexdigest()
-    print(last_hash[-6:], guess_hash[:6], proof)
+    #print(last_hash[-6:], guess_hash[:6], proof)
     return last_hash[-6:] == guess_hash[:6]
 
 
