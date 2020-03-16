@@ -24,12 +24,26 @@ This sprint challenge is divided up into three parts:  Hash tables coding, block
 
 Explain in detail the workings of a dynamic array:
 * What is the runtime complexity to access an array, add or remove from the front, and add or remove from the back?
+- Access is `O(1)`
+- Adding or removing from the front is `O(1)`
+- Adding or removing from the back is `O(n)`
+
 * What is the worse case scenario if you try to extend the storage size of a dynamic array?
+- `O(n)`
 
 Explain how a blockchain is structured. What are the blocks, what is the chain? How is the data organized?
- 
-Explain how proof of work functions. How does it operate. How does this protect the chain from attack. What kind of attack is possible?
+- A Blockchain is structured by a chain of blocks, and those blocks can have transactions.
+- A Blockchain chain is a list of all blocks mined so far.
+- A Block is a piece of data in the chain that tells us:
+    - Index - the number of the block in the chain, starting at 0 or 1, depending on the chain.
+    - Timestamp - the time at which the block was created. This is not required, but is often useful.
+    - Transactions - the monetary transactions, or any type of data, that is proofed by the block.
+    - Proof - the proof for this block. We’ll get into this later.
+    - Previous Hash - the hash of the previous block.
 
+Explain how proof of work functions. How does it operate. How does this protect the chain from attack. What kind of attack is possible?
+- A Blockchain's proof of work function attempts to find the required proof to mine the next block in the chain. It does this by adhering to a specific set of instructions and attempting to solve an arbitrarily difficult problem until those instructions are met and has found a valid proof. If the proof is valid and the first one to be submitted, a new block will be forged and therefore we will have mined a block. 
+- Proof of work secures the chain by making it nearly computationally impossible to cheat, because the cheater would have to do a greater amount of work than everyone else.
 ## Project Set Up
 
 #### [Hash Tables]
